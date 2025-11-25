@@ -116,8 +116,12 @@ public class Task {
 
     public int numInCommon(List<Integer> list1, List<Integer> list2) {
         int counter = 0;
+
+        List<Integer> unique = new ArrayList<>();
+
         for(int i: list1){
-            if(list2.contains(i)){
+            if(list2.contains(i) && !unique.contains(i)){
+                unique.add(i);
                 counter++;
             }
         }
@@ -125,28 +129,78 @@ public class Task {
     }
 
     public boolean isUnique(Map<String, String> map) {
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
-        return false;
+        String[] str =  map.values().toArray(new String[0]);
+        for (int i = 0; i<str.length-1; i++){
+            for(int j = i+1; j<str.length; j++){
+                if(str[i].equals(str[j])){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public Map<String, Integer> intersect(Map<String, Integer> map1, Map<String, Integer> map2) {
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
-        return null;
+
+        Map<String, Integer> result = new HashMap<>();
+
+        for (Map.Entry<String, Integer> map : map1.entrySet()) {
+            if(map2.containsKey(map.getKey()) && map2.containsValue(map.getValue())){
+                result.put(map.getKey(), map.getValue());
+            }
+        }
+
+        return result;
     }
 
     public Map<String, Integer> reverse(Map<Integer, String> map) {
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
-        return null;
+
+        Map<String, Integer> result = new HashMap<>();
+
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            if(result.containsKey(entry.getValue())){
+                continue;
+            }
+            result.put(entry.getValue(), entry.getKey());
+        }
+
+        return result;
     }
 
     public int rarest(Map<String, Integer> map) {
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
-        return 0;
+        Map<Integer, Integer> rarenes = new HashMap<>();
+        for (Integer value : map.values()) {
+            rarenes.put(value, rarenes.getOrDefault(value, 0) + 1);
+        }
+
+        int minFreq = 100;
+        int result = 100;
+
+        for (Map.Entry<Integer, Integer> entry : rarenes.entrySet()) {
+            if (entry.getValue() < minFreq || (entry.getValue() == minFreq &&  entry.getKey() < result)) {
+                minFreq = entry.getValue();
+                result =  entry.getKey();
+            }
+        }
+
+        return result;
     }
 
     public int maxOccurrences(List<Integer> list) {
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
-        return 0;
+        int max = 0;
+
+        Map<Integer, Integer> occurrences = new HashMap<>();
+
+        for (Integer num : list) {
+            int count = occurrences.getOrDefault(num, 0) + 1;
+            occurrences.put(num, count);
+            if (count > max) {
+                max = count;
+            }
+        }
+
+
+        return max;
     }
 
 }
